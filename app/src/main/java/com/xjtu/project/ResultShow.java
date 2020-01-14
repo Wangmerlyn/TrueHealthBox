@@ -7,6 +7,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -29,6 +30,7 @@ import lecho.lib.hellocharts.view.LineChartView;
  * A simple {@link Fragment} subclass.
  */
 public class ResultShow extends Fragment {
+    private Button Button_SaveResult;
 
 
     public ResultShow() {
@@ -50,6 +52,13 @@ public class ResultShow extends Fragment {
         super.onActivityCreated(savedInstanceState);
         TextView textView_Show_BloodGlucose;
         final MyViewModel myViewModel= ViewModelProviders.of(getActivity()).get(MyViewModel.class);
+        Button_SaveResult = getActivity().findViewById(R.id.button_SaveResult);
+        Button_SaveResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         //虚拟数据，仅供测试
         myViewModel.BloodGlucose = (float) 4.3;
         float BloodGlucose =  myViewModel.BloodGlucose;

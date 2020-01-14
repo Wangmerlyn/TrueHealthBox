@@ -42,6 +42,7 @@
     <string name="Failed_To_Choose_Photo">Failed to Choose a photo</string>
     <string name="SuccessfullyTakenPhoto">Successfully taken photo</string>
     <string name="SuccessfullyChosenFromAlbum">Successfully Chosen from Album</string>
+    <string name="button_SaveResult">Save</string>
 
 
 </resources>

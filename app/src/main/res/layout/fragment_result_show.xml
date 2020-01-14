@@ -23,13 +23,13 @@
     <lecho.lib.hellocharts.view.LineChartView
         android:id="@+id/lineChart_BloodGlucose"
         android:layout_width="match_parent"
-        android:layout_height="516dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
+        android:layout_height="420dp" />
+    <Button
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/textView_EatHealthy"
-        android:textSize="20sp"
-        android:textColor="@color/zxing_custom_viewfinder_laser"/>
+        android:id="@+id/button_SaveResult"
+        android:text="@string/button_SaveResult"/>
+
+
 
 </LinearLayout>

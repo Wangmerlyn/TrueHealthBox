@@ -26,6 +26,14 @@ public class picHandler {
     public void initAct(Context context){
         this.context=context;
     }
+    public int getGray(int x,int y){
+        int color = o_bMap.getPixel(x,y);
+        int R = Color.red(color);
+        int G = Color.green(color);
+        int B = Color.blue(color);
+        int gray = (R * 299 + G * 587 + B * 114 + 500) / 1000;
+        return gray;
+    }
     public Bitmap changeSize(Bitmap m,int width,int height){
         if(m.getHeight()*m.getWidth()<1600000){
             return m;
@@ -98,6 +106,11 @@ public class picHandler {
 //        Toast.makeText(context,Float.toString(this.left_top.getY())+"---"+Float.toString(this.bitmap.getHeight()), Toast.LENGTH_LONG).show();
         colorPicker((int)((left_top.getX()+left_bottom.getX())/2),(int)((left_top.getX()+left_bottom.getX())/2));
         return;
+    }
+    public int fetchResult(){
+        int result;
+        result = getGray((int)(this.points[0].getX()+this.points[1].getY())/2,(int)(this.points[0].getY()+this.points[1].getY())/2);
+        return result;
     }
 }
 // Interesting method

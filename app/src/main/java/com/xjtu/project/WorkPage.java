@@ -75,8 +75,10 @@ public class WorkPage extends Fragment {
                     myViewModel.pic.initAct(getActivity());
                     // 尝试识别二维码
                     myViewModel.pic.decode();
+
                     // 在图片上绘制相应的点
                     myViewModel.pic.paintPoints(getActivity().getResources().getInteger(R.integer.pic_size));
+                    //makeText(getActivity(),myViewModel.pic.fetchResult(),Toast.LENGTH_LONG).show();
                     myViewModel.myImageView.setImageBitmap(myViewModel.pic.bMap);
                 }
                 catch (Exception e){
@@ -86,6 +88,7 @@ public class WorkPage extends Fragment {
                         myViewModel.pic.initAct(getActivity());
                         myViewModel.pic.decode();
                         myViewModel.pic.paintPoints(getActivity().getResources().getInteger(R.integer.pic_size));
+                        //Toast.makeText(getActivity(),myViewModel.pic.fetchResult(),Toast.LENGTH_LONG).show();
                         myViewModel.myImageView.setImageBitmap(myViewModel.pic.bMap);
                     }
                     catch (Exception E){
@@ -130,6 +133,14 @@ public class WorkPage extends Fragment {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent,"Select Picture"),1);
+            }
+        });
+        final Button button_Debug;
+        button_Debug = getActivity().findViewById(R.id.button_Debug);
+        button_Debug.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_Debug.setText(String.valueOf(myViewModel.pic.fetchResult()));
             }
         });
     }

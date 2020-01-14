@@ -56,5 +56,9 @@
         android:layout_height="wrap_content"
         android:text="@string/button_Analyze"
         android:layout_gravity="center"/>
+    <Button
+        android:id="@+id/button_Debug"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
