@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">Project</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="textview_welcome">Welcome To HealthBox</string>
+    <string name="button_Start">Start</string>
+    <string name="button_Append">Append</string>
+    <string name="button_Edit">Edit</string>
+    <string name="textView_Name">Enter Your Name Please</string>
+    <string name="textView_Birth">Enter Your Birthdate Please</string>
+    <string name="editText_Birth">YY/MM/DD</string>
+    <string name="editText_Name">Mr/Miss/Mrs</string>
+    <string name="button_Complete">Complete</string>
+    <string name="editText_Name_hint">for user enter a name</string>
+    <string name="editText_Birth_hint">for user to enter a birthdate</string>
+    <string name="textView_Title_Append">Enter A New User:D</string>
+    <string name="textView_Title_Login">Login</string>
+    <string name="FamilyInfo">FamilyInfo</string>
+    <string name="FamilyName">FamilyName</string>
+    <string name="NameIsEmpty">Enter A Name Please</string>
+    <string name="NameExists">This User Already Exists</string>
+    <string name="button_Edit_Delete">Delete</string>
+    <string name="button_Edit_Deleting">Deleting</string>
+    <string name="textView_Title_Work">Let\'s Take A Photo</string>
+    <string name="GoodMorning">Good Morning,</string>
+    <string name="GoodNoon">Good Noon,</string>
+    <string name="GoodAfternoon">Good Afternoon,</string>
+    <string name="GoodEvening">Good Evening,</string>
+    <string name="LateNight">Hurry to Sleep,</string>
+    <string name="button_TakePicture">Take A Picture</string>
+    <string name="button_Analyze">Analyze</string>
+    <string name="textView_Title_TakePicture">Put Your Phone Into The Box PLease</string>
+    <string name="imageView_CameraView_Description">Preview Of Your Device Camera</string>
+    <string name="button_PictureTakeDecided">TAKE</string>
+    <string name="button_Import">Import From Album</string>
+    <string name="BloodGlucose_TooHigh">your blood glucose is too high,</string>
+    <string name="BloodGlucose_TooLow">your blood glucose is too low,</string>
+    <string name="BloodGlucose_Normal">your blood glucose is normal,</string>
+    <string name="textView_RecentBloodGlucose">Recent Blood Glucose</string>
+    <string name="textView_EatHealthy">Healthy Tips:\n    Eat small, frequent meals and coarse grains</string>
+    <string name="Failed_To_Choose_Photo">Failed to Choose a photo</string>
+    <string name="SuccessfullyTakenPhoto">Successfully taken photo</string>
+    <string name="SuccessfullyChosenFromAlbum">Successfully Chosen from Album</string>
+
+
+</resources>

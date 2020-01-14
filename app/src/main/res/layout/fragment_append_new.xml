@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AppendNew">
+
+    <TextView
+        android:id="@+id/textView_Title_Append"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textView_Title_Append"
+        android:textSize="30sp">
+
+    </TextView>
+    <TextView
+        android:id="@+id/textView_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textView_Name">
+
+    </TextView>
+
+    <EditText
+        android:id="@+id/editText_Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/editText_Name_hint"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:text="@string/editText_Name">
+
+    </EditText>
+
+    <TextView
+        android:id="@+id/textView_Birth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textView_Birth">
+
+    </TextView>
+
+    <EditText
+        android:id="@+id/editText_birth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/editText_Birth_hint"
+        android:importantForAutofill="no"
+        android:inputType="date"
+        android:text="@string/editText_Birth">
+
+    </EditText>
+
+    <Button
+        android:id="@+id/button_Complete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_Complete" />
+</LinearLayout>

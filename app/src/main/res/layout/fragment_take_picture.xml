@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    tools:context="TakePicture">
+    <TextView
+        android:id="@+id/textView_Title_TakePicture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/textView_Title_TakePicture">
+
+    </TextView>
+
+    <SurfaceView
+        android:id="@+id/mSurfaceView1"
+        android:layout_width="320dp"
+        android:layout_height="240dp"
+        android:visibility="visible"
+        android:layout_gravity="center">
+
+    </SurfaceView>
+    <Button
+        android:id="@+id/button_PictureTakeDecided"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_PictureTakeDecided"
+        android:textSize="30sp"
+        android:layout_gravity="center">
+
+    </Button>
+
+
+
+
+</LinearLayout>

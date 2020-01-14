@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="BloodGlucose_Low" format="float" type = "dimen" >3.9</item>
+    <item name="BloodGlucose_High" format="float" type="dimen" >6.1</item>
+</resources>

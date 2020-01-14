@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ResultShow">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/textView_Show_BloodGlucose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_blank_fragment"
+        android:textSize="30sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textView_RecentBloodGlucose"
+        android:textSize="20sp"/>
+
+    <lecho.lib.hellocharts.view.LineChartView
+        android:id="@+id/lineChart_BloodGlucose"
+        android:layout_width="match_parent"
+        android:layout_height="516dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/textView_EatHealthy"
+        android:textSize="20sp"
+        android:textColor="@color/zxing_custom_viewfinder_laser"/>
+
+</LinearLayout>
