@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -67,65 +68,64 @@ public class ResultShow extends Fragment {
         // 显示血糖的文本框
         textView_Show_BloodGlucose = getActivity().findViewById(R.id.textView_Show_BloodGlucose);
         textView_Show_BloodGlucose.setText(BloodGlucose(BloodGlucose));
-//        // 根据数据绘图
-//        // 以下爱数据皆为虚构
-//        LineChartView lineChartView = getActivity().findViewById(R.id.lineChart_BloodGlucose);
+
         String days[] = getResources().getStringArray(R.array.Days);
         float data[] =  {4.1f,4.2f,4.5f,4.3f,4.6f,4.4f,4.3f};
-//        List xAxis = new ArrayList();
-//        List yAxis = new ArrayList();
-//        Line line = new Line(yAxis).setColor(Color.parseColor("#9c27b0"));
-//        for(int i=0;i<days.length;i++){
-//            xAxis.add(i,new AxisValue(i).setLabel(days[i]));
-//            yAxis.add(new PointValue(i,data[i]));
-//        }
-//        List Lines = new ArrayList();
-//        Lines.add(line);
-//        LineChartData lineChartData = new LineChartData();
-//        lineChartData.setLines(Lines);
-//        lineChartView.setLineChartData(lineChartData);
-//        Axis axisX =new Axis();
-//        axisX.setValues(xAxis);
-//        lineChartData.setAxisXBottom(axisX);
-//        Axis axisY= new Axis();
-//        axisX.setTextColor(Color.parseColor("#9c27b0"));
-//        axisX.setTextSize(16);
-//        axisY.setTextColor(Color.parseColor("#9c27b0"));
-//        axisY.setTextSize(16);
-//        axisY.setName("Blood Glucose");
-//        axisX.setName("Days");
-//        lineChartData.setAxisYLeft(axisY);
-//        lineChart = getActivity().findViewById(R.id.lineChart);
-//        List<Entry> entries1 = new ArrayList<>();
-//        for(int i=0;i<6;i++){
-//            entries1.add(new Entry(data[i],Integer.parseInt(days[i])));
-//        }
-//        LineDataSet lineDataSet = new LineDataSet(entries1,"shit");
-//        LineData lineData = new LineData(lineDataSet);
-//        lineChart.setData(lineData);
-//        lineChart.invalidate();
-//        保证数据完整显示
-//        Viewport viewport = new Viewport(lineChartView.getMaximumViewport());
-//        viewport.top =7.0f;
-//        viewport.bottom = 3.5f;
-//        lineChartView.setMaximumViewport(viewport);
-//        lineChartView.setCurrentViewport(viewport);
+
         barChart = getActivity().findViewById(R.id.barChart);
-        List<BarEntry> entries = new ArrayList<>();
-        for(int i=0;i<7;i++){
-            entries.add(new BarEntry(Integer.parseInt(days[i]),data[i]));
-        }
-        BarDataSet barDataSet = new BarDataSet(entries,"shit");
-        barDataSet.setBarBorderColor(Color.rgb(120,120,120));
-        BarData barData = new BarData(barDataSet);
-        barChart.setData(barData);
+//        List<BarEntry> entries = new ArrayList<>();
+//        for(int i=0;i<7;i++){
+//            entries.add(new BarEntry(Integer.parseInt(days[i]),data[i]));
+//        }
+//        BarDataSet barDataSet = new BarDataSet(entries,"shit");
+//        barDataSet.setBarBorderColor(Color.rgb(120,120,120));
+//        BarData barData = new BarData(barDataSet);
+//        barChart.setData(barData);
         // BarChart边角注释
+
+
+        //虚假数据构造
+        //使用Grouped BarChart
+        Float Morning[] = {3.1f,4.2f,5.6f,6.7f,7.1f,2.5f,3.9f};
+        Float Noon[] = Morning.clone();
+        Float Afternoon[] = Morning.clone();
+        Float Evening[] = Morning.clone();
+
+        List<BarEntry> entries1 = new ArrayList<>();
+        List<BarEntry> entries2 = new ArrayList<>();
+        List<BarEntry> entries3 = new ArrayList<>();
+        List<BarEntry> entries4 = new ArrayList<>();
+        for(int i =0;i<7;i++){
+            entries1.add(new BarEntry(i,Morning[i]));
+            entries2.add(new BarEntry(i,Morning[i]));
+            entries3.add(new BarEntry(i,Morning[i]));
+            entries4.add(new BarEntry(i,Morning[i]));
+        }
+        BarDataSet barDataSet1 = new BarDataSet(entries1,"Morning");
+        BarDataSet barDataSet2 = new BarDataSet(entries2,"Noon");
+        BarDataSet barDataSet3 = new BarDataSet(entries3,"Afternoon");
+        BarDataSet barDataSet4 = new BarDataSet(entries4,"Evening");
+        barDataSet1.setColor(Color.rgb(54,141,24));
+        barDataSet2.setColor(Color.rgb(70,120,30));
+        barDataSet3.setColor(Color.rgb(90,110,35));
+        barDataSet4.setColor(Color.rgb(100,100,45));
+        BarData barData = new BarData(barDataSet1,barDataSet2,barDataSet3,barDataSet4);
+
+        float groupSpace = 0.12f;
+        float barSpace = 0.04f; // x4 dataset
+        float barWidth = 0.10f; // x4 dataset
+        barData.setBarWidth(barWidth);
+        barData.groupBars(0f,groupSpace,barSpace);
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setCenterAxisLabels(true);
+
         String a =getActivity().getString(R.string.barChart_Description);
         Description description = barChart.getDescription();
         description.setText(a);
 
         //给barChart设定LimitLine
         BarChart_SetLimitLine(barChart);
+        barChart.setData(barData);
         barChart.invalidate();
 
 
