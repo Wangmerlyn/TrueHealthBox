@@ -20,6 +20,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import java.io.File;
 import java.io.IOException;
@@ -80,6 +82,7 @@ public class WorkPage extends Fragment {
                     myViewModel.pic.paintPoints(getActivity().getResources().getInteger(R.integer.pic_size));
                     //makeText(getActivity(),myViewModel.pic.fetchResult(),Toast.LENGTH_LONG).show();
                     myViewModel.myImageView.setImageBitmap(myViewModel.pic.bMap);
+                    myViewModel.BloodGlucose = myViewModel.pic.fetchResult();
                 }
                 catch (Exception e){
                     try {
@@ -90,6 +93,7 @@ public class WorkPage extends Fragment {
                         myViewModel.pic.paintPoints(getActivity().getResources().getInteger(R.integer.pic_size));
                         //Toast.makeText(getActivity(),myViewModel.pic.fetchResult(),Toast.LENGTH_LONG).show();
                         myViewModel.myImageView.setImageBitmap(myViewModel.pic.bMap);
+                        myViewModel.BloodGlucose = myViewModel.pic.fetchResult();
                     }
                     catch (Exception E){
                         Toast.makeText(getActivity(),"解析失败",Toast.LENGTH_LONG).show();
@@ -97,8 +101,13 @@ public class WorkPage extends Fragment {
                     }
                 }
                 //跳转到分析结果界面
-                //NavController navController = Navigation.findNavController(v);
-                //navController.navigate(R.id.action_workPage_to_resultShow);
+                if (myViewModel.BloodGlucose!=0){
+                    NavController navController = Navigation.findNavController(v);
+                    navController.navigate(R.id.action_workPage_to_resultShow);
+                }
+                else{
+                    Toast.makeText(getActivity(),"请识别图片",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

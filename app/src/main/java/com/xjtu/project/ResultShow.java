@@ -60,7 +60,6 @@ public class ResultShow extends Fragment {
             }
         });
         //虚拟数据，仅供测试
-        myViewModel.BloodGlucose = (float) 4.3;
         float BloodGlucose =  myViewModel.BloodGlucose;
         // 显示血糖的文本框
         textView_Show_BloodGlucose = getActivity().findViewById(R.id.textView_Show_BloodGlucose);
