@@ -42,16 +42,19 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"加载图片失败",Toast.LENGTH_LONG).show();
                 }
             }
-            else{
+            else if(requestCode == 2){
                 Uri imageUri = data.getData();
+                Toast.makeText(this,String.valueOf(requestCode),Toast.LENGTH_LONG).show();
                 try{
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imageUri);
                     MyViewModel myViewModel = ViewModelProviders.of(this).get(MyViewModel.class);
+                    myViewModel.PathToFile = imageUri.getPath();
                     myViewModel.pic.initPic(bitmap, getApplication().getResources().getInteger(R.integer.pic_width),getApplication().getResources().getInteger(R.integer.pic_height));
                     myViewModel.myImageView.setImageBitmap(bitmap);
                 }
                 catch (IOException e){
                     e.printStackTrace();
+                    Toast.makeText(this,"加载图片失败",Toast.LENGTH_LONG).show();
                 }
 
             }

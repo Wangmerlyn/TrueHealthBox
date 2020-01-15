@@ -132,7 +132,7 @@ public class WorkPage extends Fragment {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent,"Select Picture"),1);
+                getActivity().startActivityForResult(Intent.createChooser(intent,"Select Picture"),2);
             }
         });
         final Button button_Debug;
