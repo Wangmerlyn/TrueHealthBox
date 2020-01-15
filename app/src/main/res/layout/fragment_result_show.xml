@@ -20,15 +20,16 @@
         android:text="@string/textView_RecentBloodGlucose"
         android:textSize="20sp"/>
 
-    <lecho.lib.hellocharts.view.LineChartView
-        android:id="@+id/lineChart_BloodGlucose"
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/barChart"
         android:layout_width="match_parent"
-        android:layout_height="420dp" />
+        android:layout_height="300dp" />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button_SaveResult"
         android:text="@string/button_SaveResult"/>
+
 
 
 
