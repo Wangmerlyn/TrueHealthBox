@@ -10,9 +10,11 @@ public class MyViewModel extends ViewModel {
     public ImageView myImageView;
     public picHandler pic ;
     public float BloodGlucose ;
+    public MyDate CurrentDate;
     public MyViewModel(){
         pic =new picHandler();
         BloodGlucose = 0;
+        CurrentDate = new MyDate();
     }
     public float calculateBloodGlucose(float grey_Shade){
         return grey_Shade;

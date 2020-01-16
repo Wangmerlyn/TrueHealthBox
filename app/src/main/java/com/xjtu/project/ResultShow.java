@@ -26,6 +26,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,37 +61,78 @@ public class ResultShow extends Fragment {
         TextView textView_Show_BloodGlucose;
         final MyViewModel myViewModel= ViewModelProviders.of(getActivity()).get(MyViewModel.class);
 
-        //debug
 
+        // DEBUG
+        {
+            //debug
 
+            final Button button = getActivity().findViewById(R.id.button_View);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DataBaseHelper db = new DataBaseHelper(getContext());
+                    Cursor cursor = db.getAllData();
+                    if (cursor.getCount() == 0) {
+                        showMessage("error", "shit");
+                        return;
+                    }
+                    StringBuffer stringBuffer = new StringBuffer();
+                    while (cursor.moveToNext()) {
+                        stringBuffer.append("Name :" + cursor.getString(0) + "\n");
+                        stringBuffer.append("Date :"+cursor.getString(2)+"\n");
+                    }
+                    showMessage("boiiii", stringBuffer.toString());
 
-
-        final Button button = getActivity().findViewById(R.id.button_View);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DataBaseHelper db = new DataBaseHelper(getContext());
-                Cursor cursor = db.getAllData();
-                if (cursor.getCount()==0){
-                    showMessage("error","shit");
-                    return ;
                 }
-                StringBuffer stringBuffer = new StringBuffer();
-                while(cursor.moveToNext()){
-                    stringBuffer.append("Name :"+ cursor.getString(0)+"\n");
-                }
-                showMessage("boiiii",stringBuffer.toString());
+            });
+            //debug
 
+        }
+        // DEBUG
+
+
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(getContext());
+        Cursor cursor = dataBaseHelper.getAllData();
+        cursor.moveToLast();
+        float[][] data = new float[4][7];
+        data[myViewModel.CurrentDate.defineHour()][0] = myViewModel.BloodGlucose;
+        while  (cursor.moveToPrevious()){
+            try {
+                if(myViewModel.CurrentDate.compareRecent(cursor.getString(2))>=7){
+                    break;
+                }
+                else if(cursor.getString(0)!=myViewModel.User_Name){
+                    continue;
+                }
+                else {
+                    int index = (int) cursor.getString(2).charAt(10);
+                    data[index][myViewModel.CurrentDate.compareRecent(cursor.getString(2))] = Float.parseFloat(cursor.getString(2));
+                }
             }
-        });
+            catch (ParseException e){
+                Toast.makeText(getContext(),"DataBase break down",Toast.LENGTH_LONG).show();
+            }
+        }
 
+        List<BarEntry> entries1 = new ArrayList<>();
+        List<BarEntry> entries2 = new ArrayList<>();
+        List<BarEntry> entries3 = new ArrayList<>();
+        List<BarEntry> entries4 = new ArrayList<>();
 
-
-
-
-
-
-        //debug
+        for(int i =0;i<7;i++){
+            entries1.add(new BarEntry(i,data[0][6-i]));
+            entries2.add(new BarEntry(i,data[1][6-i]));
+            entries3.add(new BarEntry(i,data[2][6-i]));
+            entries4.add(new BarEntry(i,data[3][6-i]));
+        }
+        BarDataSet barDataSet1 = new BarDataSet(entries1,"Morning");
+        BarDataSet barDataSet2 = new BarDataSet(entries2,"Noon");
+        BarDataSet barDataSet3 = new BarDataSet(entries3,"Afternoon");
+        BarDataSet barDataSet4 = new BarDataSet(entries4,"Evening");
+        barDataSet1.setColor(Color.rgb(54,141,24));
+        barDataSet2.setColor(Color.rgb(70,120,30));
+        barDataSet3.setColor(Color.rgb(90,110,35));
+        barDataSet4.setColor(Color.rgb(100,100,45));
 
 
 
@@ -116,43 +158,44 @@ public class ResultShow extends Fragment {
 
             }
         });
+
         //虚拟数据，仅供测试
         float BloodGlucose =  myViewModel.BloodGlucose;
         // 显示血糖的文本框
         textView_Show_BloodGlucose = getActivity().findViewById(R.id.textView_Show_BloodGlucose);
         textView_Show_BloodGlucose.setText(BloodGlucose(BloodGlucose));
 
-        String days[] = getResources().getStringArray(R.array.Days);
-        float data[] =  {4.1f,4.2f,4.5f,4.3f,4.6f,4.4f,4.3f};
+//        String days[] = getResources().getStringArray(R.array.Days);
+//        float data[] =  {4.1f,4.2f,4.5f,4.3f,4.6f,4.4f,4.3f};
 
         barChart = getActivity().findViewById(R.id.barChart);
 
 
         //虚假数据构造
         //使用Grouped BarChart
-        Float Morning[] = {3.1f,4.2f,5.6f,6.7f,7.1f,2.5f,3.9f};
-        Float Noon[] = Morning.clone();
-        Float Afternoon[] = Morning.clone();
-        Float Evening[] = Morning.clone();
-
-        List<BarEntry> entries1 = new ArrayList<>();
-        List<BarEntry> entries2 = new ArrayList<>();
-        List<BarEntry> entries3 = new ArrayList<>();
-        List<BarEntry> entries4 = new ArrayList<>();
-        for(int i =0;i<7;i++){
-            entries1.add(new BarEntry(i,Morning[i]));
-            entries2.add(new BarEntry(i,Morning[i]));
-            entries3.add(new BarEntry(i,Morning[i]));
-            entries4.add(new BarEntry(i,Morning[i]));
-        }
-        BarDataSet barDataSet1 = new BarDataSet(entries1,"Morning");
-        BarDataSet barDataSet2 = new BarDataSet(entries2,"Noon");
-        BarDataSet barDataSet3 = new BarDataSet(entries3,"Afternoon");
-        BarDataSet barDataSet4 = new BarDataSet(entries4,"Evening");
-        barDataSet1.setColor(Color.rgb(54,141,24));
-        barDataSet2.setColor(Color.rgb(70,120,30));
-        barDataSet3.setColor(Color.rgb(90,110,35));
-        barDataSet4.setColor(Color.rgb(100,100,45));
+//        Float Morning[] = {3.1f,4.2f,5.6f,6.7f,7.1f,2.5f,3.9f};
+//        Float Noon[] = Morning.clone();
+//        Float Afternoon[] = Morning.clone();
+//        Float Evening[] = Morning.clone();
+//
+//        List<BarEntry> entries1 = new ArrayList<>();
+//        List<BarEntry> entries2 = new ArrayList<>();
+//        List<BarEntry> entries3 = new ArrayList<>();
+//        List<BarEntry> entries4 = new ArrayList<>();
+//        for(int i =0;i<7;i++){
+//            entries1.add(new BarEntry(i,Morning[i]));
+//            entries2.add(new BarEntry(i,Morning[i]));
+//            entries3.add(new BarEntry(i,Morning[i]));
+//            entries4.add(new BarEntry(i,Morning[i]));
+//        }
+//        BarDataSet barDataSet1 = new BarDataSet(entries1,"Morning");
+//        BarDataSet barDataSet2 = new BarDataSet(entries2,"Noon");
+//        BarDataSet barDataSet3 = new BarDataSet(entries3,"Afternoon");
+//        BarDataSet barDataSet4 = new BarDataSet(entries4,"Evening");
+//        barDataSet1.setColor(Color.rgb(54,141,24));
+//        barDataSet2.setColor(Color.rgb(70,120,30));
+//        barDataSet3.setColor(Color.rgb(90,110,35));
+//        barDataSet4.setColor(Color.rgb(100,100,45));
         BarData barData = new BarData(barDataSet1,barDataSet2,barDataSet3,barDataSet4);
 
         float groupSpace = 0.12f;
@@ -171,8 +214,6 @@ public class ResultShow extends Fragment {
         BarChart_SetLimitLine(barChart);
         barChart.setData(barData);
         barChart.invalidate();
-
-
 
     }
 

@@ -83,6 +83,7 @@ public class WorkPage extends Fragment {
                     //makeText(getActivity(),myViewModel.pic.fetchResult(),Toast.LENGTH_LONG).show();
                     myViewModel.myImageView.setImageBitmap(myViewModel.pic.bMap);
                     myViewModel.BloodGlucose = myViewModel.pic.fetchResult();
+                    myViewModel.CurrentDate.refresh();
                 }
                 catch (Exception e){
                     try {
