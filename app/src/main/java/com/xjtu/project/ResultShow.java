@@ -1,6 +1,8 @@
 package com.xjtu.project;
 
 
+import android.app.AlertDialog;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -49,17 +52,67 @@ public class ResultShow extends Fragment {
 
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Button Button_SaveResult;
-        BarChart barChart;
+        final Button Button_SaveResult;
+        final BarChart barChart;
 //        LineChart lineChart;
         TextView textView_Show_BloodGlucose;
         final MyViewModel myViewModel= ViewModelProviders.of(getActivity()).get(MyViewModel.class);
+
+        //debug
+
+
+
+
+        final Button button = getActivity().findViewById(R.id.button_View);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataBaseHelper db = new DataBaseHelper(getContext());
+                Cursor cursor = db.getAllData();
+                if (cursor.getCount()==0){
+                    showMessage("error","shit");
+                    return ;
+                }
+                StringBuffer stringBuffer = new StringBuffer();
+                while(cursor.moveToNext()){
+                    stringBuffer.append("Name :"+ cursor.getString(0)+"\n");
+                }
+                showMessage("boiiii",stringBuffer.toString());
+
+            }
+        });
+
+
+
+
+
+
+
+        //debug
+
+
+
+
+
         Button_SaveResult = getActivity().findViewById(R.id.button_SaveResult);
         Button_SaveResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                DataBaseHelper dataBaseHelper = new DataBaseHelper(getContext());
+
+                MyDate myDate = new MyDate();
+                boolean insertInfo = dataBaseHelper.insertData(myViewModel.User_Name,myViewModel.BloodGlucose,myDate.getTimeDescription());
+                if(insertInfo){
+                    Toast.makeText(getContext(),"Saving Successful",Toast.LENGTH_SHORT).show();
+                    Button_SaveResult.setClickable(false);
+                    Button_SaveResult.setText(getResources().getString(R.string.button_ResultSaved));
+                }
+                else{
+                    Toast.makeText(getContext(),"Saving Failed",Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -73,15 +126,6 @@ public class ResultShow extends Fragment {
         float data[] =  {4.1f,4.2f,4.5f,4.3f,4.6f,4.4f,4.3f};
 
         barChart = getActivity().findViewById(R.id.barChart);
-//        List<BarEntry> entries = new ArrayList<>();
-//        for(int i=0;i<7;i++){
-//            entries.add(new BarEntry(Integer.parseInt(days[i]),data[i]));
-//        }
-//        BarDataSet barDataSet = new BarDataSet(entries,"shit");
-//        barDataSet.setBarBorderColor(Color.rgb(120,120,120));
-//        BarData barData = new BarData(barDataSet);
-//        barChart.setData(barData);
-        // BarChart边角注释
 
 
         //虚假数据构造
@@ -168,4 +212,12 @@ public class ResultShow extends Fragment {
         Result +=BloodGlucose+".";
         return Result;
     }
+    private void showMessage(String title,String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.show();
+    }
+
 }

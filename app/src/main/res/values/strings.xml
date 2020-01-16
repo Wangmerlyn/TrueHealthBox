@@ -46,6 +46,9 @@
     <string name="SuccessfullyChosenFromAlbum">Successfully Chosen from Album</string>
     <string name="button_SaveResult">Save</string>
     <string name="barChart_Description">Recent Status</string>
+    <string name="individual_BloodGlucose">BloodGlucose</string>
+    <string name="DataBase_BloodGlucose">BloodGlucose</string>
+    <string name="button_ResultSaved">Saved</string>
 
 
 </resources>
