@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.List;
-
+// 通过对数据适配器的重写来形成针对于应用数据的布局
 public class People_Show_Adapter extends BaseAdapter {
     private List<People_Item> list;//数据
     private LayoutInflater layoutInflater;//布局装载

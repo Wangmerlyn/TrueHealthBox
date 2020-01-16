@@ -49,17 +49,9 @@
         android:label="fragment_work_page"
         tools:layout="@layout/fragment_work_page" >
         <action
-            android:id="@+id/action_workPage_to_takePicture"
-            app:destination="@id/takePicture" />
-        <action
             android:id="@+id/action_workPage_to_resultShow"
             app:destination="@id/resultShow" />
     </fragment>
-    <fragment
-        android:id="@+id/takePicture"
-        android:name="com.xjtu.project.TakePicture"
-        android:label="fragment_take_picture"
-        tools:layout="@layout/fragment_take_picture" />
     <fragment
         android:id="@+id/resultShow"
         android:name="com.xjtu.project.ResultShow"

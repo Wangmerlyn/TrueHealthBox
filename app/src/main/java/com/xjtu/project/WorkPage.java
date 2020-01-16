@@ -37,14 +37,16 @@ import static android.os.Environment.getExternalStoragePublicDirectory;
  */
 public class WorkPage extends Fragment {
     private String imgFilePath;
+    // 用来对生成图片进行命名的时间
     private SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddhhmmssSSS");
 
 
     public WorkPage() {
         // Required empty public constructor
     }
-    public static final int PICK_IMAGE = 11;
 
+    private static final int TAKE_PIC = 1;
+    private static final int PICK_PIC = 2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,8 +68,6 @@ public class WorkPage extends Fragment {
         textView_User_Name.setText(HelloWord+myViewModel.User_Name);
         Button button_Analyze,button_TakePicture,button_Import;
         // 分析按钮
-
-
         button_Analyze=getActivity().findViewById(R.id.button_Analyze);
         button_Analyze.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +79,7 @@ public class WorkPage extends Fragment {
                     myViewModel.pic.decode();
 
                     // 在图片上绘制相应的点
+                    // 绘制点，代表成功识别文件，也为了后期调试方便
                     myViewModel.pic.paintPoints(getActivity().getResources().getInteger(R.integer.pic_size));
                     //makeText(getActivity(),myViewModel.pic.fetchResult(),Toast.LENGTH_LONG).show();
                     myViewModel.myImageView.setImageBitmap(myViewModel.pic.bMap);
@@ -87,7 +88,8 @@ public class WorkPage extends Fragment {
                 }
                 catch (Exception e){
                     try {
-                        //排除相机间的误差
+                        // 由于相机生成文件的分辨率有差别
+                        // 排除相机间的误差
                         myViewModel.pic.initPic(myViewModel.pic.o_bMap,getActivity().getResources().getInteger(R.integer.pic_height),getActivity().getResources().getInteger(R.integer.pic_width));
                         myViewModel.pic.initAct(getActivity());
                         myViewModel.pic.decode();
@@ -97,12 +99,13 @@ public class WorkPage extends Fragment {
                         myViewModel.BloodGlucose = myViewModel.pic.fetchResult();
                     }
                     catch (Exception E){
+                        // 图片中没有二维码或者二维码不够清晰
                         Toast.makeText(getActivity(),"解析失败",Toast.LENGTH_LONG).show();
-//                        Toast.makeText(getActivity(),"wqnmd我也不知道是啥错误啊啊啊",Toast.LENGTH_LONG).show();
                     }
                 }
                 //跳转到分析结果界面
                 if (myViewModel.BloodGlucose!=0){
+                    //导向结果分析界面
                     NavController navController = Navigation.findNavController(v);
                     navController.navigate(R.id.action_workPage_to_resultShow);
                 }
@@ -128,12 +131,8 @@ public class WorkPage extends Fragment {
                     }
                 }
                 dispatchPictureTakerAction();
-               /* NavController navController;
-                navController=Navigation.findNavController(v);
-                navController.navigate(R.id.action_workPage_to_takePicture);*/
             }
         });
-
 
         button_Import=getActivity().findViewById(R.id.button_Import);
         button_Import.setOnClickListener(new View.OnClickListener() {
@@ -142,7 +141,7 @@ public class WorkPage extends Fragment {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                getActivity().startActivityForResult(Intent.createChooser(intent,"Select Picture"),2);
+                getActivity().startActivityForResult(Intent.createChooser(intent,"Select Picture"),PICK_PIC);
             }
         });
         final Button button_Debug;
@@ -154,7 +153,6 @@ public class WorkPage extends Fragment {
             }
         });
     }
-
     private void dispatchPictureTakerAction(){
         Intent takePic=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(takePic.resolveActivity(getActivity().getPackageManager())!=null){
@@ -166,12 +164,10 @@ public class WorkPage extends Fragment {
                 myViewModel.PathToFile=PhotoFile.getAbsolutePath();
                 Uri PhotoUri= FileProvider.getUriForFile(getActivity(),"com.xjtu.project",PhotoFile);
                 takePic.putExtra(MediaStore.EXTRA_OUTPUT,PhotoUri);
-                getActivity().startActivityForResult(takePic,1);
+                getActivity().startActivityForResult(takePic,TAKE_PIC);
             }
         }
     }
-
-
     private File createPhotoFile(){
         String Name=new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         //将拍照所有文件存在该文件夹下
@@ -187,9 +183,10 @@ public class WorkPage extends Fragment {
         }catch (IOException e){
             Log.i("mylog","Excep:"+e.toString());
         }
+        // 返回生成的临时图片文件
         return image;
     }
-
+    // 用来生成对用户的问好语句
     private String welcomeWord(){
         Calendar calendar=Calendar.getInstance();
         int hour=calendar.get(Calendar.HOUR_OF_DAY);

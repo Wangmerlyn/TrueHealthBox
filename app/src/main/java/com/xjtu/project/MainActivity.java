@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==RESULT_OK){
-            //Toast.makeText(this,"thisisi hsiw",Toast.LENGTH_LONG).show();
+            // 如果request 是拍照
             if(requestCode==1){
                 Toast.makeText(this,getString(R.string.SuccessfullyTakenPhoto),Toast.LENGTH_LONG).show();
                 MyViewModel myViewModel;
@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 Bitmap bitmap= BitmapFactory.decodeFile(myViewModel.PathToFile);
                 myViewModel.pic.initAct(this);
                 try{
+                    //初始化图片分析对象
                     myViewModel.pic.initPic(bitmap, getApplication().getResources().getInteger(R.integer.pic_width),getApplication().getResources().getInteger(R.integer.pic_height));
                     myViewModel.myImageView.setImageBitmap(myViewModel.pic.bMap);
                 }
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"加载图片失败",Toast.LENGTH_LONG).show();
                 }
             }
+            // 如果request 是从相册导入文件
             else if(requestCode == 2){
                 Uri imageUri = data.getData();
                 Toast.makeText(this,String.valueOf(requestCode),Toast.LENGTH_LONG).show();

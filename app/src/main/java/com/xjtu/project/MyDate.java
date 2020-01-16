@@ -19,6 +19,8 @@ public class MyDate {
     public int day;
     public int hour;
 
+    // 无参数
+    // 获取现在时间
     public MyDate() {
         Calendar calendar = Calendar.getInstance();
         this.year =calendar.get(Calendar.YEAR);
@@ -26,6 +28,7 @@ public class MyDate {
         this.day = calendar.get(Calendar.DAY_OF_MONTH);
         this.hour = calendar.get(Calendar.HOUR);
     }
+    // SQL中储存的时间字符串
     public MyDate(String date){
         this.year = Integer.parseInt(date.substring(0,3));
         this.month = Integer.parseInt(date.substring(4,5));
@@ -33,6 +36,7 @@ public class MyDate {
         this.hour = Integer.parseInt(date.substring(8,9));
     }
 
+    //将此对象设置为当前时间
     public void refresh(){
         Calendar calendar = Calendar.getInstance();
         this.year =calendar.get(Calendar.YEAR);
@@ -41,6 +45,7 @@ public class MyDate {
         this.hour = calendar.get(Calendar.HOUR);
     }
 
+    //将此事件对象转换成SQL中的时间语句
     public String getTimeDescription(){
         String timeDescriptive ;
         String str_year = String.valueOf(this.year);
@@ -59,8 +64,9 @@ public class MyDate {
         timeDescriptive =str_year+str_mon+str_day+str_hour+defineHour();
         return timeDescriptive;
     }
-
     // 对于时间的描述
+    // 用在时间语句的最后一位
+    // 表示上午，中午，下午，或晚上
     public int defineHour(){
         if(this.hour>=0&&this.hour<=10)
             return MORNING;
@@ -71,6 +77,7 @@ public class MyDate {
         else
             return EVENING;
     }
+    //用来判断目标时间语句所代表的时间与现在的MyDate对象时间相隔天数
     public int compareRecent(String date) throws ParseException {
         MyDate myDate_cmp = new MyDate(date);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddhh");

@@ -57,39 +57,8 @@ public class ResultShow extends Fragment {
         super.onActivityCreated(savedInstanceState);
         final Button Button_SaveResult;
         final BarChart barChart;
-//        LineChart lineChart;
         TextView textView_Show_BloodGlucose;
         final MyViewModel myViewModel= ViewModelProviders.of(getActivity()).get(MyViewModel.class);
-
-
-//        // DEBUG
-//        {
-//            //debug
-//
-//            final Button button = getActivity().findViewById(R.id.button_View);
-//            button.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    DataBaseHelper db = new DataBaseHelper(getContext());
-//                    Cursor cursor = db.getAllData();
-//                    if (cursor.getCount() == 0) {
-//                        showMessage("error", "shit");
-//                        return;
-//                    }
-//                    StringBuffer stringBuffer = new StringBuffer();
-//                    while (cursor.moveToNext()) {
-//                        stringBuffer.append("Name :" + cursor.getString(0) + "\n");
-//                        stringBuffer.append("Date :"+cursor.getString(2)+"\n");
-//                    }
-//                    showMessage("boiiii", stringBuffer.toString());
-//
-//                }
-//            });
-//            //debug
-//
-//        }
-//        // DEBUG
-
         Button_SaveResult = getActivity().findViewById(R.id.button_SaveResult);
         Button_SaveResult.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,19 +76,12 @@ public class ResultShow extends Fragment {
                 else{
                     Toast.makeText(getContext(),"Saving Failed",Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
-
-        //虚拟数据，仅供测试
         float BloodGlucose =  myViewModel.BloodGlucose;
         // 显示血糖的文本框
         textView_Show_BloodGlucose = getActivity().findViewById(R.id.textView_Show_BloodGlucose);
         textView_Show_BloodGlucose.setText(BloodGlucose(BloodGlucose));
-
-//        String days[] = getResources().getStringArray(R.array.Days);
-//        float data[] =  {4.1f,4.2f,4.5f,4.3f,4.6f,4.4f,4.3f};
-
         barChart = getActivity().findViewById(R.id.barChart);
 
 
@@ -159,6 +121,7 @@ public class ResultShow extends Fragment {
             entries3.add(new BarEntry(i,data[2][6-i]));
             entries4.add(new BarEntry(i,data[3][6-i]));
         }
+        // 根据给定数据集设定图表
         BarDataSet barDataSet1 = new BarDataSet(entries1,"Morning");
         BarDataSet barDataSet2 = new BarDataSet(entries2,"Noon");
         BarDataSet barDataSet3 = new BarDataSet(entries3,"Afternoon");
@@ -167,9 +130,7 @@ public class ResultShow extends Fragment {
         barDataSet2.setColor(Color.rgb(70,120,30));
         barDataSet3.setColor(Color.rgb(90,110,35));
         barDataSet4.setColor(Color.rgb(100,100,45));
-
         BarData barData = new BarData(barDataSet1,barDataSet2,barDataSet3,barDataSet4);
-
         float groupSpace = 0.12f;
         float barSpace = 0.04f; // x4 dataset
         float barWidth = 0.10f; // x4 dataset
@@ -177,18 +138,15 @@ public class ResultShow extends Fragment {
         barData.groupBars(0f,groupSpace,barSpace);
         XAxis xAxis = barChart.getXAxis();
         xAxis.setCenterAxisLabels(true);
-
         String a =getActivity().getString(R.string.barChart_Description);
         Description description = barChart.getDescription();
         description.setText(a);
-
         //给barChart设定LimitLine
         BarChart_SetLimitLine(barChart);
         barChart.setData(barData);
         barChart.invalidate();
 
     }
-
     // 给BarChart设置LimitLine
     private void BarChart_SetLimitLine(BarChart barChart){
         YAxis leftAxis = barChart.getAxisLeft();
@@ -202,10 +160,7 @@ public class ResultShow extends Fragment {
         leftAxis.addLimitLine(limitLine_TooLow);
         leftAxis.addLimitLine(limitLine_TooHigh);
     }
-
-    //  ===
-    //  === 显示血糖具体状态的语句
-    //  ===
+    //  显示血糖具体状态的语句
     private String BloodGlucose(float BloodGlucose){
         MyViewModel myViewModel=ViewModelProviders.of(getActivity()).get(MyViewModel.class);
         TypedValue BloodGlucose_High = new TypedValue(),BloodGlucose_Low = new TypedValue();
@@ -225,6 +180,7 @@ public class ResultShow extends Fragment {
         Result +=BloodGlucose+".";
         return Result;
     }
+    // 显示当前数据的所有相关信息
     private void showMessage(String title,String message){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(true);

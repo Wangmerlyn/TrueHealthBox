@@ -33,6 +33,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    //插入给定的数据到当前使用的数据库中
     public Boolean insertData(String name, float bloodGlucose, String date){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -42,11 +43,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         long result = db.insert(TABLE_NAME,null,contentValues);
         if (result != -1 )
+            //如果插入数据成功则返回真
             return true;
         else
             return false;
     }
-
+    //从数据库中获取所有信息
     public Cursor getAllData(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from "+TABLE_NAME,null);

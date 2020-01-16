@@ -2,22 +2,18 @@ package com.xjtu.project;
 
 
 import android.os.Bundle;
-
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,19 +89,10 @@ public class Login extends Fragment {
                 }
                 else{
                     people_control.Delete(list.get(position).Name);
-                    //List<People_Item>list1=new ArrayList<>();
                     list.remove(position);
                     people_show_adapter.Reset(getContext(),list);
                     listView_Login.setAdapter(people_show_adapter);
-                    //getActivity().recreate();
-                    //People_Show_Adapter people_show_adapter1=new People_Show_Adapter(getContext(),list);
-                    /*Set<String>set=people_control.GetNameSet();
-                    String string[]=set.toArray(new String[set.size()]);
-                    for(int i=0,j=string.length;i<j;i++){
-                        list1.add(new People_Item(string[i]));
-                    }
-                    People_Show_Adapter people_show_adapter1=new People_Show_Adapter(getContext(),list1);
-                    listView_Login.setAdapter(people_show_adapter1);*/
+
                 }
             }
         });
