@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,10 @@ import java.util.List;
  */
 public class ResultShow extends Fragment {
 
+    Button Button_SaveResult;
+    BarChart barChart;
+    Button Button_Debug ;
+
 
 
     public ResultShow() {
@@ -55,8 +60,7 @@ public class ResultShow extends Fragment {
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        final Button Button_SaveResult;
-        final BarChart barChart;
+
         TextView textView_Show_BloodGlucose;
         final MyViewModel myViewModel= ViewModelProviders.of(getActivity()).get(MyViewModel.class);
         Button_SaveResult = getActivity().findViewById(R.id.button_SaveResult);
@@ -91,17 +95,44 @@ public class ResultShow extends Fragment {
         cursor.moveToLast();
         float[][] data = new float[4][7];
         data[myViewModel.CurrentDate.defineHour()][0] = myViewModel.BloodGlucose;
+        int j=0;
         while  (cursor.moveToPrevious()){
+
+            j++;
+
+            Log.d("INDEX",cursor.getString(0));
+            Log.d("INDEX",cursor.getString(1));
+            Log.d("INDEX",cursor.getString(2));
+            Log.d("Times",String.valueOf(j));
+            try {
+                Log.d("INDEX",String.valueOf(myViewModel.CurrentDate.compareRecent(cursor.getString(2))));
+            }
+            catch (ParseException e){
+                //
+            }
+
+
+
+
+
+
             try {
                 if(myViewModel.CurrentDate.compareRecent(cursor.getString(2))>=7){
+                    Log.d("REASON","1");
                     break;
                 }
-                else if(cursor.getString(0)!=myViewModel.User_Name){
+                else if(!cursor.getString(0).equals(myViewModel.User_Name)){
+                    Log.d("REASON","2");
+                    Log.d("REASON",cursor.getString(0));
+                    Log.d("REASON",myViewModel.User_Name);
+
                     continue;
                 }
                 else {
-                    int index = (int) cursor.getString(2).charAt(10);
-                    data[index][myViewModel.CurrentDate.compareRecent(cursor.getString(2))] = Float.parseFloat(cursor.getString(2));
+                    int index = Integer.parseInt(cursor.getString(2).substring(10,11));
+
+                    data[index][myViewModel.CurrentDate.compareRecent(cursor.getString(2))] = Float.parseFloat(cursor.getString(1));
+                    Log.d("shitData",cursor.getString(1));
                 }
             }
             catch (ParseException e){
@@ -109,6 +140,9 @@ public class ResultShow extends Fragment {
             }
         }
 
+
+        debugSession();
+        Log.d("STEP","SHIW");
         // 早，中午，下午，晚的数据集
         List<BarEntry> entries1 = new ArrayList<>();
         List<BarEntry> entries2 = new ArrayList<>();
@@ -187,6 +221,31 @@ public class ResultShow extends Fragment {
         builder.setTitle(title);
         builder.setMessage(message);
         builder.show();
+    }
+
+    private void debugSession(){
+
+            Button_Debug = getActivity().findViewById(R.id.button_View);
+            Button_Debug.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DataBaseHelper db = new DataBaseHelper(getContext());
+                    Cursor cursor = db.getAllData();
+                    if (cursor.getCount() == 0) {
+                        showMessage("error", "shit");
+                        return;
+                    }
+                    StringBuffer stringBuffer = new StringBuffer();
+                    while (cursor.moveToNext()) {
+                        stringBuffer.append("Name :" + cursor.getString(0) + "\n");
+                        stringBuffer.append("Date :"+cursor.getString(2)+"\n");
+                    }
+                    showMessage("boiiii", stringBuffer.toString());
+
+                }
+            });
+
+
     }
 
 }

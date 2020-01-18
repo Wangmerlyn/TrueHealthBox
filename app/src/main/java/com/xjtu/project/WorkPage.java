@@ -144,14 +144,7 @@ public class WorkPage extends Fragment {
                 getActivity().startActivityForResult(Intent.createChooser(intent,"Select Picture"),PICK_PIC);
             }
         });
-        final Button button_Debug;
-        button_Debug = getActivity().findViewById(R.id.button_Debug);
-        button_Debug.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_Debug.setText(String.valueOf(myViewModel.pic.fetchResult()));
-            }
-        });
+
     }
     private void dispatchPictureTakerAction(){
         Intent takePic=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

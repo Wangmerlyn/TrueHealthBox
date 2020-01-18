@@ -81,11 +81,142 @@ public class MyDate {
     public int compareRecent(String date) throws ParseException {
         MyDate myDate_cmp = new MyDate(date);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddhh");
-        Date date1 = simpleDateFormat.parse(date.substring(0,9));
-        Date date2 = simpleDateFormat.parse(this.getTimeDescription().substring(0,9));
-        long l1 = date1.getTime();
-        long l2 = date2.getTime();
-        int days = (int) ((l2-l1)/(1000*60*60*24));
-        return days;
+        Date date_past = simpleDateFormat.parse(date.substring(0,10));
+        Date date_now = simpleDateFormat.parse(this.getTimeDescription().substring(0,10));
+        return daysBetween(date_past,date_now);
+    }
+
+    /**
+     * using Year,Month and Day to calculate the days between two Date instances
+     * @param date_past
+     * @param date_now
+     * @return days
+     */
+    private int  daysBetween(Date date_past , Date date_now){
+        int totalDays = 0;
+        totalDays += daysBetweenInYears(date_past,date_now) ;
+        totalDays += daysBetweenInMonths(date_past,date_now) ;
+        totalDays += daysBetweenInDays(date_past,date_now);
+        return totalDays;
+
+    }
+    /**
+     * Calculate the days of total years between two Daye instance
+     * @param date_past
+     * @param date_now
+     * @return int representing the days in total
+     */
+    private static int daysBetweenInYears(Date date_past,Date date_now){
+        int year_past = getInDate(date_past,YEAR);
+        int year_now = getInDate(date_now,YEAR);
+        int leapYear = 0;
+        for(int i = year_past+1;i<year_now;i++){
+            if (i % 4 ==0 &&i%400!=0)
+                leapYear++;
+        }
+        return (year_now - year_past - 1) > 0 ? (year_now-year_past-1)*365+leapYear : 0;
+    }
+
+    /**
+     * Calculates how many days are there between two Date instances Ignoring their Year
+     * @param date_past
+     * @param date_now
+     * @return days between two Date ignoring Year
+     */
+    private static int  daysBetweenInMonths(Date date_past,Date date_now){
+
+        int months_past = getInDate(date_past,MONTH);
+        int months_now = getInDate(date_now,MONTH);
+        if(getInDate(date_past,YEAR)==getInDate(date_now,YEAR)){
+            int days_total = 0;
+            for(int i = months_past+1;i< months_now;i++){
+                days_total+=getDaysInMonth(i,getInDate(date_past,YEAR));
+            }
+            return  days_total;
+        }
+        else if (getInDate(date_past,YEAR)<getInDate(date_now,YEAR)){
+            int days_past =0;
+            int days_now = 0;
+            for(int i= months_past+1;i<=12;i++){
+                days_past+=getDaysInMonth(i,getInDate(date_past,YEAR));
+            }
+            for(int i = months_now-1;i>=1;i++){
+                days_now+=getDaysInMonth(i,getInDate(date_now,YEAR));
+            }
+            return days_past+days_now;
+        }
+        return -1;
+    }
+
+    private static int daysBetweenInDays( Date date_past , Date date_now ){
+        int days_past = getInDate(date_past,DAY);
+        int days_now = getInDate(date_now,DAY);
+        if(getInDate(date_past,YEAR) ==getInDate(date_now,YEAR)&&getInDate(date_past,MONTH)==getInDate(date_past,MONTH)){
+            return days_now-days_past;
+        }
+        else {
+            return getDaysInMonth(getInDate(date_past,MONTH),getInDate(date_past,YEAR)) - days_past + days_now;
+        }
+
+
+    }
+    /**
+     * This function gets the data of the target Date in the requested field
+     * @param date
+     * @param field
+     * @return Year or Month or Day or Hour in int
+     * if the requested field doesn't exist
+     * @return -1 in int
+     */
+    private static int getInDate(Date date,int field){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        switch (field){
+            case YEAR:{
+                return calendar.get(Calendar.YEAR);
+            }
+            case MONTH:{
+                // Calendar 类 获取月份需要加1
+                return calendar.get(Calendar.MONTH)+1;
+            }
+            case DAY:{
+                return calendar.get(Calendar.DAY_OF_MONTH);
+            }
+            case HOUR:{
+                return calendar.get(Calendar.HOUR);
+            }
+            default:{
+                return -1;
+            }
+        }
+    }
+
+    /**
+     * returns how many days are there in a month
+     * @param month
+     * @param year
+     * @return the days in month
+     */
+    private static int getDaysInMonth(int month,int year){
+        if( month % 2 == 1){
+            if(month>=9)
+                return 30 ;
+            else
+                return 31 ;
+        }
+        else{
+            if ( month == 2 ){
+                if(year%4==0&&year%400!=0)
+                    return 28 ;
+                else
+                    return 29 ;
+            }
+            else{
+                if(month>=8)
+                    return 31 ;
+                else
+                    return 30 ;
+            }
+        }
     }
 }

@@ -49,6 +49,7 @@
     <string name="individual_BloodGlucose">BloodGlucose</string>
     <string name="DataBase_BloodGlucose">BloodGlucose</string>
     <string name="button_ResultSaved">Saved</string>
+    <string name="button_ShowAllData">Data</string>
 
 
 </resources>
